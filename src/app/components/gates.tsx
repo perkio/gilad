@@ -20,7 +20,7 @@ export async function Gates() {
     
     if (rows.length === 0) {
         return (
-            <div>טרם קיבלת הרשאה, אנא פנה לועד עם כתובת המייל שאיתה הזדהת: {session.user?.email}</div>
+            <div>טרם קיבלת הרשאה, אנא פנה לועד עם כתובת המייל שאיתה הזדהית: {session.user?.email}</div>
         )    
     }
 
