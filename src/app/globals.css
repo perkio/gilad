@@ -17,6 +17,8 @@
 }
 
 body {
+  direction: rtl;
+
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -30,6 +32,14 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.btn {
+  border: 2px solid rgb(var(--foreground-rgb));
+  color: rgb(var(--foreground-rgb));
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .round-button {
