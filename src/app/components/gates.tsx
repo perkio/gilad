@@ -25,6 +25,6 @@ export async function Gates() {
     }
 
     return rows.map(({ name, gate_id }) =>
-        (<GateButton name={name} gate_id={gate_id}/>)
+        (<GateButton key={gate_id} name={name} gate_id={gate_id}/>)
     )
 }
