@@ -7,7 +7,7 @@ export function AccessTable({ results }: { results: ({ gates_access: ({ gates: {
     const router = useRouter()
 
     const rows = results.map(({ id, name, email, gates_access }) => (
-        <tr>
+        <tr key={id}>
             <td data-label="מספר">{id}</td>
             <td data-label="שם">{name}</td>
             <td data-label="אימייל">{email}</td>
