@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+}
+
+model accounts {
+  id                Int     @id @default(autoincrement())
+  userId            Int
+  type              String  @db.VarChar(255)
+  provider          String  @db.VarChar(255)
+  providerAccountId String  @db.VarChar(255)
+  refresh_token     String?
+  access_token      String?
+  expires_at        BigInt?
+  id_token          String?
+  scope             String?
+  session_state     String?
+  token_type        String?
+}
+
+model gates {
+  id           Int            @id @default(autoincrement())
+  name         String?        @db.VarChar(255)
+  entity_id    String?        @db.VarChar(255)
+  gates_access gates_access[]
+}
+
+model gates_access {
+  gate_id Int   @default(autoincrement())
+  user_id Int   @default(autoincrement())
+  gates   gates @relation(fields: [gate_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users   users @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([gate_id, user_id])
+}
+
+model sessions {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  expires      DateTime @db.Timestamptz(6)
+  sessionToken String   @db.VarChar(255)
+}
+
+model users {
+  id            Int            @id @default(autoincrement())
+  name          String?        @db.VarChar(255)
+  email         String?        @db.VarChar(255)
+  emailVerified DateTime?      @db.Timestamptz(6)
+  image         String?
+  gates_access  gates_access[]
+}
+
+model verification_token {
+  identifier String
+  expires    DateTime @db.Timestamptz(6)
+  token      String
+
+  @@id([identifier, token])
+}
