@@ -7,7 +7,7 @@ datasource db {
   url      = env("POSTGRES_PRISMA_URL")
 }
 
-model accounts {
+model Account {
   id                Int     @id @default(autoincrement())
   userId            Int
   type              String  @db.VarChar(255)
@@ -20,44 +20,55 @@ model accounts {
   scope             String?
   session_state     String?
   token_type        String?
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
-model gates {
+model Gate {
   id           Int            @id @default(autoincrement())
   name         String?        @db.VarChar(255)
   entity_id    String?        @db.VarChar(255)
-  gates_access gates_access[]
+  gates_access GatesAccess[]
+
+  @@map("gates")
 }
 
-model gates_access {
+model GatesAccess {
   gate_id Int   @default(autoincrement())
   user_id Int   @default(autoincrement())
-  gates   gates @relation(fields: [gate_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users   users @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  gates   Gate @relation(fields: [gate_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users   User @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([gate_id, user_id])
+  @@map("gates_access")
 }
 
-model sessions {
+model Session {
   id           Int      @id @default(autoincrement())
   userId       Int
   expires      DateTime @db.Timestamptz(6)
   sessionToken String   @db.VarChar(255)
+
+  @@map("sessions")
 }
 
-model users {
+model User {
   id            Int            @id @default(autoincrement())
   name          String?        @db.VarChar(255)
   email         String?        @db.VarChar(255)
   emailVerified DateTime?      @db.Timestamptz(6)
   image         String?
-  gates_access  gates_access[]
+  gates_access  GatesAccess[]
+
+  @@map("users")
 }
 
-model verification_token {
+model VerificationToken {
   identifier String
   expires    DateTime @db.Timestamptz(6)
   token      String
 
   @@id([identifier, token])
+  @@map("verification_token")
 }

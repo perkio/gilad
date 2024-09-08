@@ -1,5 +1,5 @@
-import { sql } from "@vercel/postgres";
 import { auth } from "../../../auth";
+import { getUserWithGates } from "../../../query/get-users-with-gates";
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
@@ -12,13 +12,9 @@ export async function POST(
     return Response.json({ message: "Not authenticated" }, { status: 401 })
   }
 
-  const { rows } = await sql`
-    SELECT name, gate_id, entity_id
-    FROM gates_access
-    LEFT JOIN gates ON gates_access.gate_id = gates.id
-    WHERE user_id=${session.user?.id} AND gate_id=${params.id}`;
-    
-  if (rows.length !== 1) {
+  const user = await getUserWithGates(Number(session.user?.id));
+  const gate = user.gates_access.find(({ gate_id }) => (gate_id === Number(params.id)));
+  if (!gate) {
     return Response.json({ message: "Forbidden" }, { status: 403 })
   }
   
@@ -32,7 +28,7 @@ export async function POST(
     },
     method: "POST",
     body: JSON.stringify({
-      "entity_id": rows[0].entity_id
+      "entity_id": gate.gates.entity_id
     }),
   });
 
