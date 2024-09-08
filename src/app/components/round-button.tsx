@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useState } from "react";
+import toast from 'react-hot-toast';
 
 interface IProps {
   title: string;
@@ -13,10 +14,18 @@ export default function RoundButton({ title, action }: IProps) {
   async function onPressed() {
     setPressed(true);
     await action();
-    await new Promise(res => setTimeout(res, 500))
+    await new Promise(res => setTimeout(res, 1000))
     setPressed(false);
   }
+
+  const notify = async () => {
+    await toast.promise(onPressed(), {
+      loading: "משדר...",
+      error: "שגיאה",
+      success: "פותח"
+    })
+  }
   return (
-    <button onClick={onPressed} className={`round-button ${isPressed ? "pressed" : ""}`}>{title}</button>
+    <button onClick={notify} className={`round-button ${isPressed ? "pressed" : ""}`}>{title}</button>
   );
 }
