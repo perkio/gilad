@@ -37,7 +37,7 @@ async function UserCard() {
   if (session) {
     return  <>
       <div className="usercard">{session.user?.name}</div>
-      {session.user?.id && await isAdmin(session.user.id) ? <NavButton /> : 0} 
+      {session.user?.id && await isAdmin(session.user.id) ? <NavButton /> : null} 
       <SignOut />
       </> 
   } else {
