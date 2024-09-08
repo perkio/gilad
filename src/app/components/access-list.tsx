@@ -1,18 +1,9 @@
-import prisma from "../db";
+import { getUsersWithGates } from "../query/get-users-with-gates";
 import { AccessTable } from "./access-table";
 import React from "react";
 
 export async function AccessList() {
-    const results = await prisma.users.findMany({
-        include: {
-            gates_access: {
-                include: {
-                    gates: true
-                }
-            },
-        },
-    });
-
+    const results = await getUsersWithGates();
     return <AccessTable results={results} ></AccessTable>;
 }
 

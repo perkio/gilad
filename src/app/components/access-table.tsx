@@ -1,9 +1,12 @@
 "use client";
 
+import { Prisma } from ".prisma/client";
 import { useRouter } from "next/navigation";
+import {getUsersWithGates } from "../query/get-users-with-gates";
+
 import React from "react";
 
-export function AccessTable({ results }: { results: ({ gates_access: ({ gates: { id: number; name: string | null; entity_id: string | null; }; } & { gate_id: number; user_id: number; })[]; } & { id: number; name: string | null; email: string | null; emailVerified: Date | null; image: string | null; })[] }) {
+export function AccessTable({ results }: { results: Prisma.PromiseReturnType<typeof getUsersWithGates> }) {
     const router = useRouter()
 
     const rows = results.map(({ id, name, email, gates_access }) => (
