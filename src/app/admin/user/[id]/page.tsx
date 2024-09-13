@@ -51,7 +51,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     'use server'
 
     const allowedGateIds = formData.getAll("gate").map(Number);
-    
+    // TODO: transaction?
     if (allowedGateIds.length) {
       await prisma.gatesAccess.createMany({
         skipDuplicates: true,
@@ -76,7 +76,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const User = () => {    
     return (<>
-      <img src={user.image ?? ""}></img>
+      <img alt="profile" src={user.image ?? ""}></img>
       <div>{user?.name}</div>
       <div>{user?.email}</div>
       <form action={updateUser}>

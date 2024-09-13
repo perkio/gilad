@@ -50,7 +50,7 @@ model Session {
   id           Int      @id @default(autoincrement())
   userId       Int
   expires      DateTime @db.Timestamptz(6)
-  sessionToken String   @db.VarChar(255)
+  sessionToken String   @unique @db.VarChar(255)
 
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -60,7 +60,7 @@ model Session {
 model User {
   id            Int            @id @default(autoincrement())
   name          String?        @db.VarChar(255)
-  email         String?        @db.VarChar(255)
+  email         String?        @db.VarChar(255) @unique
   emailVerified DateTime?      @db.Timestamptz(6)
   image         String?
   
