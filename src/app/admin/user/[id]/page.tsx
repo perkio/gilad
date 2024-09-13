@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     redirect("/");
   }
 
-  const user = await prisma.users.findUniqueOrThrow({
+  const user = await prisma.user.findUniqueOrThrow({
     where: {
         id: Number(params.id),
     },
@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     }
   });
 
-  const allGates = await prisma.gates.findMany();
+  const allGates = await prisma.gate.findMany();
 
   const GateCheckboxes = () => {
     return allGates.map((gate) => (
@@ -51,9 +51,9 @@ export default async function Page({ params }: { params: { id: string } }) {
     'use server'
 
     const allowedGateIds = formData.getAll("gate").map(Number);
-    
+    // TODO: transaction?
     if (allowedGateIds.length) {
-      await prisma.gates_access.createMany({
+      await prisma.gatesAccess.createMany({
         skipDuplicates: true,
         data: allowedGateIds.map(id => ({ 
           gate_id: id,
@@ -62,7 +62,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       });
     }
 
-    await prisma.gates_access.deleteMany({
+    await prisma.gatesAccess.deleteMany({
       where: {
         gate_id: {
           notIn: allowedGateIds
@@ -76,7 +76,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const User = () => {    
     return (<>
-      <img src={user.image ?? ""}></img>
+      <img alt="profile" src={user.image ?? ""}></img>
       <div>{user?.name}</div>
       <div>{user?.email}</div>
       <form action={updateUser}>
