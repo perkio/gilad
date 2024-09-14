@@ -1,5 +1,7 @@
 import { auth } from "../../../auth";
 import { getUserWithGates } from "../../../query/get-users-with-gates";
+import { push } from "../../../notification";
+import { pressButton } from "../../../home-api";
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
@@ -17,21 +19,13 @@ export async function POST(
   if (!gate) {
     return Response.json({ message: "Forbidden" }, { status: 403 })
   }
-  
-  const url = new URL("/api/services/button/press", process.env.HOME_URL);
-  console.log("->", url);
-
-  const res = await fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-      'authorization': `Bearer ${process.env.HOME_API_KEY}`,
-    },
-    method: "POST",
-    body: JSON.stringify({
-      "entity_id": gate.gates.entity_id
-    }),
-  });
-
-  console.log("<-", await res.text());
-  return new Response(JSON.stringify({ result: "success" }));
+  console.log(`User ${user.id} is pressing ${gate.gates.entity_id}`)
+  try {
+    await pressButton(gate.gates.entity_id!);
+    return new Response(JSON.stringify({ result: "success" }));
+  } catch (e) {
+    void push({ body: `Unable to open gate ${gate.gates.name} for ${user.name}`, title: "Gate API Error" });
+    console.error("Unable to open gate", e);
+    return Response.json({ message: "Service Unavailable" }, { status: 503 })
+  }
 }
