@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'; // static by default, unless reading the
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth();
   if (!session?.user?.id) {
@@ -15,7 +15,8 @@ export async function POST(
   }
 
   const user = await getUserWithGates(session.user.id);
-  const gate = user.gates_access.find(({ gate_id }) => (gate_id === Number(params.id)));
+  const id = (await params).id;
+  const gate = user.gates_access.find(({ gate_id }) => (gate_id === Number(id)));
   if (!gate) {
     return Response.json({ message: "Forbidden" }, { status: 403 })
   }

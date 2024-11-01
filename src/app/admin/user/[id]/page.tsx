@@ -6,7 +6,8 @@ import { redirect } from "next/navigation";
 import BackButton from "../../../components/back-button";
 import { isAdmin } from "../../../is-admin";
 
-export default async function Page({ params }: { params: { id: string } }) {
+
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
   if (!session?.user?.id) {
     redirect("/");
@@ -16,9 +17,11 @@ export default async function Page({ params }: { params: { id: string } }) {
     redirect("/");
   }
 
+  const id =  (await params).id;
+
   const user = await prisma.user.findUniqueOrThrow({
     where: {
-        id: params.id,
+        id
     },
     include: {
         gates_access: {
@@ -55,9 +58,9 @@ export default async function Page({ params }: { params: { id: string } }) {
     if (allowedGateIds.length) {
       await prisma.gatesAccess.createMany({
         skipDuplicates: true,
-        data: allowedGateIds.map(id => ({ 
-          gate_id: id,
-          user_id: params.id,
+        data: allowedGateIds.map(gate_id => ({ 
+          gate_id,
+          user_id: id,
         }))
       });
     }
@@ -67,7 +70,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         gate_id: {
           notIn: allowedGateIds
         },
-        user_id: params.id,
+        user_id: id,
       }
     });
 
