@@ -12,7 +12,7 @@ export async function Gates() {
     }
 
 
-    const user = await getUserWithGates(Number(session.user.id))
+    const user = await getUserWithGates(session.user.id)
     if (user.gates_access.length === 0) {
         return (
             <div>טרם קיבלת הרשאה, אנא פנה לועד עם כתובת המייל שאיתה הזדהית: {session.user?.email}</div>

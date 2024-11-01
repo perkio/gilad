@@ -18,7 +18,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const user = await prisma.user.findUniqueOrThrow({
     where: {
-        id: Number(params.id),
+        id: params.id,
     },
     include: {
         gates_access: {
@@ -57,7 +57,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         skipDuplicates: true,
         data: allowedGateIds.map(id => ({ 
           gate_id: id,
-          user_id: Number(params.id),
+          user_id: params.id,
         }))
       });
     }
@@ -67,7 +67,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         gate_id: {
           notIn: allowedGateIds
         },
-        user_id: Number(params.id),
+        user_id: params.id,
       }
     });
 

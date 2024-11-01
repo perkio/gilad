@@ -1,6 +1,6 @@
 import prisma from "../db";
 
-export async function getUserWithGates(id: number) {
+export async function getUserWithGates(id: string) {
     const result = await prisma.user.findUniqueOrThrow({
         where: {
             id,

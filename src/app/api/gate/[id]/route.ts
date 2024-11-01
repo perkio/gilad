@@ -10,11 +10,11 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   const session = await auth();
-  if (!session) {
+  if (!session?.user?.id) {
     return Response.json({ message: "Not authenticated" }, { status: 401 })
   }
 
-  const user = await getUserWithGates(Number(session.user?.id));
+  const user = await getUserWithGates(session.user.id);
   const gate = user.gates_access.find(({ gate_id }) => (gate_id === Number(params.id)));
   if (!gate) {
     return Response.json({ message: "Forbidden" }, { status: 403 })

@@ -1,3 +1,3 @@
 // TODO: migrate db schema
 
-export const isAdmin = async (id: string) => ["1", "3", "24"].includes(id.toString());
+export const isAdmin = async (id: string) => ["cm2yiq1fy00007g8tk1261qkd"].includes(id.toString());
