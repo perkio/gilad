@@ -25,7 +25,7 @@ export function UpdateUserInfoFrom({ allGates }: Props) {
             apartment: Number(formData.get("apartment") as string),
             building: Number(formData.get("building") as string),
             phonenumber: formData.get("phonenumber") as string,
-            requested_gateId: formData.has("requested_gateId") ? Number(formData.get("requested_gateId")) : undefined,
+            requested_gateId: Number(formData.get("requested_gateId")),
         }
 
         const result = await updateUserInfo(info);
@@ -61,7 +61,7 @@ export function UpdateUserInfoFrom({ allGates }: Props) {
             <label htmlFor="apartment">דירה:</label>
             <input id="apartment" name="apartment" type="number" min={1} max={60}></input>
 
-            <label htmlFor="requested_gateId">שער:</label>
+            <label htmlFor="requested_gateId">שער מבוקש:</label>
             <select name="requested_gateId" id="requested_gateId">
                 {allGates.map(({ id, entity_id, name }) => (
                     <option key={entity_id} value={id}>{name}</option>
