@@ -24,6 +24,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         id
     },
     include: {
+        info: true,
         gates_access: {
             include: {
                 gates: true
@@ -82,6 +83,11 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       <img alt="profile" src={user.image ?? ""}></img>
       <div>{user?.name}</div>
       <div>{user?.email}</div>
+      <div>{user?.info?.firstName} {user?.info?.lastName}</div>
+      <div>הגלעד {user?.info?.building}</div>
+      <div>דירה {user?.info?.apartment}</div>
+      <div>טלפון {user?.info?.phonenumber}</div>
+      
       <form action={updateUser}>
         <GateCheckboxes/>
         <BackButton className="btn">חזרה</BackButton>

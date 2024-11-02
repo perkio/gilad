@@ -6,9 +6,10 @@ export async function getUserWithGates(id: string) {
             id,
         },
         include: {
+            info: true,
             gates_access: {
                 include: {
-                    gates: true
+                    gates: true,
                 }
             },
         },
@@ -21,6 +22,7 @@ export async function getUserWithGates(id: string) {
 export async function getUsersWithGates() {
     const results = await prisma.user.findMany({
         include: {
+            info: true,
             gates_access: {
                 include: {
                     gates: true

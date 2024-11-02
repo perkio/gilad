@@ -17,6 +17,20 @@ model User {
   sessions      Session[]
   Authenticator Authenticator[]
   gates_access  GatesAccess[]
+  info          UserInfo?
+}
+
+model UserInfo {
+  id     Int  @id @default(autoincrement())
+
+  userId       String @unique
+  firstName    String
+  lastName     String
+  building     Int
+  apartment    Int
+  phonenumber  String?
+
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Account {

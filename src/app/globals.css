@@ -28,6 +28,11 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+input, select, textarea {
+  color: rgb(var(--background-start-rgb));
+  background: rgb(var(--foreground-rgb));
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
