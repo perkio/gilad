@@ -5,6 +5,7 @@ import prisma from "../../../db";
 import { redirect } from "next/navigation";
 import BackButton from "../../../components/back-button";
 import { isAdmin } from "../../../is-admin";
+import { allGates } from "../../../query/get-users-with-gates";
 
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -24,7 +25,11 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         id
     },
     include: {
-        info: true,
+        info: {
+          include: {
+            requestedGate: true,
+          }
+        },
         gates_access: {
             include: {
                 gates: true
@@ -33,10 +38,10 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
     }
   });
 
-  const allGates = await prisma.gate.findMany();
+  const all = await allGates();
 
   const GateCheckboxes = () => {
-    return allGates.map((gate) => (
+    return all.map((gate) => (
       <div key={gate.entity_id}>
         <input
           style={{margin: '10px'}}
@@ -87,6 +92,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       <div>הגלעד {user?.info?.building}</div>
       <div>דירה {user?.info?.apartment}</div>
       <div>טלפון {user?.info?.phonenumber}</div>
+      <div>שער מבוקש: { user?.info?.requestedGate?.name}</div>
       
       <form action={updateUser}>
         <GateCheckboxes/>

@@ -1,5 +1,10 @@
 import prisma from "../db";
 
+export async function allGates() {
+    const allGates = await prisma.gate.findMany();
+    return allGates;
+}
+
 export async function getUserWithGates(id: string) {
     const result = await prisma.user.findUniqueOrThrow({
         where: {

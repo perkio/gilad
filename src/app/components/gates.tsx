@@ -1,7 +1,7 @@
 import React, { EventHandler, FormEvent, SyntheticEvent } from "react";
 import { auth } from "../auth";
 import { GateButton } from "./gate-button";
-import { getUserWithGates } from "../query/get-users-with-gates";
+import { allGates, getUserWithGates } from "../query/get-users-with-gates";
 import { UpdateUserInfoFrom } from "./user-info-from";
 
 export async function Gates() {
@@ -15,7 +15,8 @@ export async function Gates() {
 
     const user = await getUserWithGates(session.user.id)
     if (!user.info) {
-        return <UpdateUserInfoFrom />
+        const all = await allGates();
+        return <UpdateUserInfoFrom allGates={all} />
     }
 
     if (user.gates_access.length === 0) {

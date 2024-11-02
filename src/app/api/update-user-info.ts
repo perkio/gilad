@@ -13,6 +13,8 @@ export const updateUserInfo = withValidation(UserInfoSchema, async (data) => {
     }
 
     const userId = session.user.id;
+    const { requested_gateId, ...dataWithout } = data;
+
     await prisma.userInfo.upsert({
         where: {
             userId
@@ -21,7 +23,12 @@ export const updateUserInfo = withValidation(UserInfoSchema, async (data) => {
             ...data
         },
         create: {
-            ...data,
+            ...dataWithout,
+            requestedGate: {
+                connect: {
+                    id: data.requested_gateId,
+                }
+            },
             user: {
                 connect: {
                     id: userId,

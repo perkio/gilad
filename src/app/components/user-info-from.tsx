@@ -3,8 +3,15 @@
 import React, { FormEvent, useState } from "react";
 import { updateUserInfo } from "../api/update-user-info";
 import { isValidationError } from 'next-server-action-validation';
+import prisma from "../db";
+import { Prisma } from "@prisma/client";
+import { allGates } from "../query/get-users-with-gates";
 
-export function UpdateUserInfoFrom() {
+interface Props {
+    allGates: Prisma.PromiseReturnType<typeof allGates>;
+}
+
+export function UpdateUserInfoFrom({ allGates }: Props) {
     const [errorMessage, setErrorMessage] = useState("")
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -18,6 +25,7 @@ export function UpdateUserInfoFrom() {
             apartment: Number(formData.get("apartment") as string),
             building: Number(formData.get("building") as string),
             phonenumber: formData.get("phonenumber") as string,
+            requested_gateId: formData.has("requested_gateId") ? Number(formData.get("requested_gateId")) : undefined,
         }
 
         const result = await updateUserInfo(info);
@@ -52,6 +60,13 @@ export function UpdateUserInfoFrom() {
 
             <label htmlFor="apartment">דירה:</label>
             <input id="apartment" name="apartment" type="number" min={1} max={60}></input>
+
+            <label htmlFor="requested_gateId">שער:</label>
+            <select name="requested_gateId" id="requested_gateId">
+                {allGates.map(({ id, entity_id, name }) => (
+                    <option key={entity_id} value={id}>{name}</option>
+                ))}
+            </select>
 
             <button type="submit" className="btn">שלח</button>
             <div style={{ color: "red" }}>{errorMessage}</div>

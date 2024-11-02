@@ -7,4 +7,5 @@ export const UserInfoSchema = z.object({
     phonenumber: z.string().refine(validator.isMobilePhone),
     building: z.number().min(5).max(11),
     apartment: z.number().min(1).max(55),
+    requested_gateId: z.number(),
 });
