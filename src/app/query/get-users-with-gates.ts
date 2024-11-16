@@ -24,6 +24,27 @@ export async function getUserWithGates(id: string) {
 }
 
 
+export async function getUserWithGatesByPhone(phonenumber: string) {
+    const result = await prisma.user.findFirst({
+        where: {
+            info: {
+                phonenumber
+            },
+        },
+        include: {
+            info: true,
+            gates_access: {
+                include: {
+                    gates: true,
+                }
+            },
+        },
+    });
+
+    return result;
+}
+
+
 export async function getUsersWithGates() {
     const results = await prisma.user.findMany({
         include: {

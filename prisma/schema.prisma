@@ -33,6 +33,8 @@ model UserInfo {
 
   user          User @relation(fields: [userId], references: [id])
   requestedGate Gate?   @relation(fields: [requested_gateId], references: [id])
+
+  @@index([phonenumber])
 }
 
 model Account {
