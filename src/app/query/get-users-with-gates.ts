@@ -25,7 +25,7 @@ export async function getUserWithGates(id: string) {
 
 
 export async function getUserWithGatesByPhone(phonenumber: string) {
-    const result = await prisma.user.findFirstOrThrow({
+    const result = await prisma.user.findFirst({
         where: {
             info: {
                 phonenumber
