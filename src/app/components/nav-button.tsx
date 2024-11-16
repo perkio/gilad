@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { NavigateButton } from "./components/navigate-button";
+import { NavigateButton } from "./navigate-button";
 import React from "react";
 
 export function NavButton() {
