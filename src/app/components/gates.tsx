@@ -3,6 +3,7 @@ import { auth } from "../auth";
 import { GateButton } from "./gate-button";
 import { allGates, getUserWithGates } from "../query/get-users-with-gates";
 import { UpdateUserInfoFrom } from "./user-info-from";
+import Image from "next/image";
 
 export async function Gates() {
     const session = await auth();
@@ -25,9 +26,18 @@ export async function Gates() {
         )
     }
 
-    return user.gates_access.map(({ gate_id, gates }) =>
+    const buttons = user.gates_access.map(({ gate_id, gates }) =>
         (<GateButton key={gate_id} name={gates.name!} gate_id={gates.id!.toString()} />)
     )
+
+    return <>
+        {buttons}
+        חדש: חייג לשער
+        <a href="tel:+97233821001" style={{ justifyItems: "center"}}>
+            03-3821001
+            <Image src="/phone.svg" className="dark:invert" width={30} height={30} alt="חייג" />
+        </a>
+    </>
 }
 
 
