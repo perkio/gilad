@@ -1,6 +1,6 @@
 import { auth } from "../../../auth";
 import { getUserWithGates } from "../../../query/get-users-with-gates";
-import { push } from "../../../notification";
+import { push } from "../../../clients/notification";
 import { pressButton } from "../../../clients/home-api";
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
