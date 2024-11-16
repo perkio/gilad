@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import BackButton from "../../../components/back-button";
 import { isAdmin } from "../../../is-admin";
 import { allGates } from "../../../query/get-users-with-gates";
-
+import Image from "next/image";
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
@@ -85,7 +85,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
   const User = () => {    
     return (<>
-      <img alt="profile" src={user.image ?? ""}></img>
+      <Image alt="profile" src={user.image ?? ""}/>
       <div>{user?.name}</div>
       <div>{user?.email}</div>
       <div>{user?.info?.firstName} {user?.info?.lastName}</div>
