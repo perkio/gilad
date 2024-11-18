@@ -85,7 +85,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
 
   const User = () => {    
     return (<>
-      <Image alt="profile" src={user.image ?? ""}/>
+      <Image alt="profile" src={user.image ?? ""} width={64} height={64}/>
       <div>{user?.name}</div>
       <div>{user?.email}</div>
       <div>{user?.info?.firstName} {user?.info?.lastName}</div>

@@ -8,6 +8,17 @@ const withSerwist = withSerwistInit({
   });
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    images: {
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'lh3.googleusercontent.com',
+          port: '',
+          pathname: '/**',
+        },
+      ],
+    },
+};
 
 export default withSerwist(nextConfig);
