@@ -1,11 +1,12 @@
 import withSerwistInit from "@serwist/next";
 
 // used by @vercel/speed-insights
-const vercelScriptsSrc = "https://va.vercel-scripts.com"
+const vercelScriptsSrc = "https://va.vercel-scripts.com";
+const vercelLiveSrc = "https://vercel.live";
 
 const cspHeader = `
     default-src 'self';
-    script-src 'self' 'unsafe-eval' 'unsafe-inline' ${vercelScriptsSrc};
+    script-src 'self' 'unsafe-eval' 'unsafe-inline' ${vercelLiveSrc} ${vercelScriptsSrc};
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data:;
     font-src 'self';
@@ -14,14 +15,14 @@ const cspHeader = `
     form-action 'self';
     frame-ancestors 'none';
     upgrade-insecure-requests;
-`
+`;
 
 const withSerwist = withSerwistInit({
-    // Note: This is only an example. If you use Pages Router,
-    // use something else that works, such as "service-worker/index.ts".
-    swSrc: "src/app/sw.ts",
-    swDest: "public/sw.js",
-  });
+  // Note: This is only an example. If you use Pages Router,
+  // use something else that works, such as "service-worker/index.ts".
+  swSrc: "src/app/sw.ts",
+  swDest: "public/sw.js",
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -46,16 +47,16 @@ const nextConfig = {
       }
     ]
   },
-    images: {
-      remotePatterns: [
-        {
-          protocol: 'https',
-          hostname: 'lh3.googleusercontent.com',
-          port: '',
-          pathname: '/**',
-        },
-      ],
-    },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 };
 
 export default withSerwist(nextConfig);
