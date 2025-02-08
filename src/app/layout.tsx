@@ -10,7 +10,6 @@ import { auth } from "./auth"
 import { Toaster } from 'react-hot-toast';
 import { isAdmin } from "./is-admin";
 import { NavButton } from "./components/nav-button";
-import Head from "next/head";
 
 const font = Rubik({ subsets: ["hebrew", "latin"] });
 

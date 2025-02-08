@@ -1,6 +1,10 @@
 export async function pressButton(entity_id: string) {
-  const url = new URL("/api/services/button/press", process.env.HOME_URL);
-const res = await fetch(url, {
+  let type = "button";
+  if (entity_id.startsWith("input_button")) {
+    type = "input_button";
+  }
+  const url = new URL(`/api/services/${type}/press`, process.env.HOME_URL);
+  const res = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
       'authorization': `Bearer ${process.env.HOME_API_KEY}`,
