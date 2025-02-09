@@ -14,7 +14,7 @@ export async function getUserWithGates(id: string) {
             info: true,
             gates_access: {
                 include: {
-                    gates: true,
+                    gate: true,
                 }
             },
         },
@@ -35,7 +35,7 @@ export async function getUserWithGatesByPhone(phonenumber: string) {
             info: true,
             gates_access: {
                 include: {
-                    gates: true,
+                    gate: true,
                 }
             },
         },
@@ -51,7 +51,7 @@ export async function getUsersWithGates() {
             info: true,
             gates_access: {
                 include: {
-                    gates: true
+                    gate: true
                 }
             },
         },

@@ -26,8 +26,8 @@ export async function Gates() {
         )
     }
 
-    const buttons = user.gates_access.map(({ gate_id, gates }) =>
-        (<GateButton key={gate_id} name={gates.name!} gate_id={gates.id!.toString()} />)
+    const buttons = user.gates_access.map(({ gate_id, gate }) =>
+        (<GateButton key={gate_id} name={gate.name!} gate_id={gate.id!.toString()} />)
     )
 
     return <>

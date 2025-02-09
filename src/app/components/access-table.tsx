@@ -16,7 +16,7 @@ export function AccessTable({ results }: { results: Prisma.PromiseReturnType<typ
             <td data-label="בניין">{info ? `הגלעד ${info.building}` : '-'}</td>
             <td data-label="דירה">{info ? `${info.apartment}` : '-'}</td>
             <td data-label="טלפון">{info ? `${info.phonenumber}` : '-'}</td>
-            <td data-label="הרשאות">{gates_access.length ? gates_access.map(g => g.gates.name).join(", ") : "אין"}</td>
+            <td data-label="הרשאות">{gates_access.length ? gates_access.map(g => g.gate.name).join(", ") : "אין"}</td>
             <td data-label="פעולות"><button className="btn" onClick={() => router.push(`/admin/user/${id}`)}>ערוך</button></td>
         </tr>
     ));
