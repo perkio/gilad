@@ -22,7 +22,7 @@ export async function POST(
   }
   console.log(`User ${user.id} is pressing ${gate.gates.entity_id}`)
   try {
-    await pressButton(gate.gates.entity_id!);
+    await pressButton(user, gate.gates, "web");
     return new Response(JSON.stringify({ result: "success" }));
   } catch (e) {
     void push({ body: `Unable to open gate ${gate.gates.name} for ${user.name}`, title: "Gate API Error" });

@@ -18,6 +18,7 @@ model User {
   Authenticator Authenticator[]
   gates_access  GatesAccess[]
   info          UserInfo?
+  events        GateAccessEvent[]
 }
 
 model UserInfo {
@@ -91,6 +92,7 @@ model Gate {
   entity_id    String?       @db.VarChar(255)
   gates_access GatesAccess[]
   RequestedBy  UserInfo[]
+  events       GateAccessEvent[]
 
   @@map("gates")
 }
@@ -104,4 +106,20 @@ model GatesAccess {
 
   @@id([gate_id, user_id])
   @@map("gates_access")
+}
+
+model GateAccessEvent {
+  id         String   @id @default(cuid())
+  source     String
+  type       String
+
+  gate_id    Int
+  user_id    String
+  created_at DateTime @default(now())
+
+  users User @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  gates Gate @relation(fields: [gate_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([created_at(sort: Desc)])
+  @@map("access_events")
 }
