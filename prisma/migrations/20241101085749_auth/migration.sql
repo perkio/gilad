@@ -123,5 +123,5 @@ ALTER TABLE "gates_access" ADD CONSTRAINT "gates_access_user_id_fkey" FOREIGN KE
 INSERT INTO gates ("id", "name", "entity_id") 
     VALUES  
         (1, 'שער עליון', 'button.garage'),
-        (2, 'שער תחתון', 'button.garage_lower')
+        (2, 'שער תחתון', 'button.garage_lower'),
         (3, 'שער שומר', 'input_button.gate_gilad');

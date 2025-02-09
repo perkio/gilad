@@ -49,7 +49,8 @@ export async function POST(request: Request) {
     if (user) {
         console.log("User found", user.name);
         if (user.gates_access.length) {
-            await pressButton(user.gates_access[0].gates.entity_id!);
+            const gate = user.gates_access[0].gate;
+            await pressButton(user, gate, "twilio");
         }
     } 
 
