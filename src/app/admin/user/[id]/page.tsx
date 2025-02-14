@@ -49,7 +49,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
           id={gate.id!.toString()}
           name="gate"
           value={gate.id!}
-          defaultChecked={user.gates_access.some(({ gate }) => gate.entity_id === gate.entity_id)}
+          defaultChecked={user.gates_access.some(({ gate: g }) => g.entity_id === gate.entity_id)}
           />
         <label htmlFor={gate.id!.toString()}>{gate.name!}</label>
       </div>
